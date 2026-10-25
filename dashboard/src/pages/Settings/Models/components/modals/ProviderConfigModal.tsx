@@ -82,6 +82,10 @@ function formatFileSize(bytes: number): string {
   return `${(bytes / Math.pow(1024, i)).toFixed(1)} ${units[i]}`;
 }
 
+function firstEnabledModelId(models: ProviderModel[]): string {
+  return models.find((model) => model.enabled !== false)?.id ?? "";
+}
+
 export function ProviderConfigModal({
   provider,
   open,
@@ -657,9 +661,7 @@ export function ProviderConfigModal({
     if (!open) return;
     // Only hydrate when the modal opens (or provider id changes), so
     // background refreshes / local model toggles do not reset the form.
-    const currentDefaultModel = provider.models?.length
-      ? provider.models[0].id
-      : "";
+    const currentDefaultModel = firstEnabledModelId(provider.models ?? []);
     form.setFieldsValue({
       kind: provider.kind,
       base_url: provider.base_url ?? "",
