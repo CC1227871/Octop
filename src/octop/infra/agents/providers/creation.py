@@ -8,7 +8,7 @@ from typing import Any, cast
 try:
     from psycopg import errors as pg_errors
 except ImportError:  # pragma: no cover - optional PostgreSQL driver
-    pg_errors = None
+    pg_errors = cast(Any, None)
 
 from octop.infra.errors import ErrorCode, OctopError
 
